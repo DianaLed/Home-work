@@ -10,7 +10,7 @@ protected:
 public:
   TDatLink(PTDatValue pVal = nullptr, PTDatLink pN = nullptr) : pNext(pN), pValue(pVal) { }
   void SetDatValue(PTDatValue pVal) { pValue = pVal; }
-  PTDatValue GetDatValue() { return pValue; }
+  PTDatValue GetDatValue() { if (pValue == nullptr) return  nullptr;  return pValue; }
   PTDatLink GetNextDatLink() { return (PTDatLink)pNext; } 
   PTDatLink GetNextLink() { return pNext; }               
   void SetNextLink(PTDatLink pLink) { pNext = pLink; }

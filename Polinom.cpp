@@ -34,7 +34,7 @@ PTMonom sum_monom(PTMonom a, PTMonom b) {
   return res;
 }
 
-TPolinom& TPolinom::operator+(TPolinom& q)
+TPolinom TPolinom::operator+(TPolinom& q)
 {
   TPolinom res;
   PTMonom sum;
@@ -86,6 +86,7 @@ TPolinom& TPolinom::operator+(TPolinom& q)
   //складываем пока одна из цепочек не кончится
   while ((ithis < GetListLength()&& iq< GetListLength())) {
     //ищем самый большой моном
+    res.SetCurrentPos(res.GetListLength() - 1);
     if (*GetMonom() > *q.GetMonom())
       //и его добавляем в res
       if (can_sum_monom(GetMonom(), res.GetMonom())) {
@@ -153,10 +154,18 @@ TPolinom& TPolinom::operator+(TPolinom& q)
 
 
 
-TPolinom& TPolinom::operator=( TPolinom& q)
+TPolinom& TPolinom::operator=(const TPolinom& q)
 {
-  DelList();
-  PTMonom pm=new TMonom;
+    DelList();
+    TDatLink* cur = q.pFirst;
+    for (int i = 0; i < q.GetListLength(); i++) {
+      TMonom* mon = (TMonom*)cur->GetDatValue();
+      TDatValue* add = new TMonom(mon->GetCoeff(), mon->GetIndex());
+      InsLast(add);
+      cur = cur->GetNextLink();
+    }
+    return *this;
+ /* PTMonom pm=new TMonom;
   for (q.Reset(); !q.IsListEnded(); q.GoNext())
   {
     pm = q.GetMonom();
@@ -165,7 +174,7 @@ TPolinom& TPolinom::operator=( TPolinom& q)
   q.GoNext();
    pm = q.GetMonom();
   InsLast(pm->GetCopy());
-  return (*this);
+  return (*this);*/
 }
 
 int get_one(int a) {

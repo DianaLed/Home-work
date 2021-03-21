@@ -119,7 +119,7 @@ int TDatList::Reset(void)
 
 bool TDatList::IsListEnded(void) const
 {
-  if (CurrPos==ListLen)//(pCurrLink->pNext==NULL)
+  if (CurrPos==ListLen-1)//(pCurrLink->pNext==NULL)
     return true;
   return false;
 }
@@ -163,13 +163,13 @@ void TDatList::InsLast(PTDatValue pVal)
     pPrevLink = pLast;
   }
   else {
-    PTDatLink* zven = new PTDatLink;
-    zven[0] = new TDatLink();
-    zven[0]->pValue = pVal;
-    zven[0]->pNext = NULL;
-    pLast->pNext = zven[0];
-    pLast = zven[0];
-    for (Reset(); pCurrLink != pLast; GoNext()) {}
+    PTDatLink zven = new TDatLink();
+    //PTDatLink* zven = new PTDatLink;
+    //*zven = new TDatLink();
+    zven->pValue = pVal;
+    zven->pNext = NULL;
+    pLast->pNext= zven;
+    pLast = zven;
   }
   ListLen++;
 }
